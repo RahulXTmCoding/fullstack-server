@@ -68,6 +68,14 @@ exports.editEvent=async function(req,res){
                 return
         
         }
+        const user=await UserModel.findById(req.user._id)
+     
+     if(!user)
+     {
+       res.json({status:0,message:'User Does not exist'});
+       return 
+     }
+ 
         
         const event=await EventModel.findById(id);
         if(!event)
@@ -103,7 +111,14 @@ const {
 id,
 
 }=req.body
-
+const user=await UserModel.findById(req.user._id)
+     
+     if(!user)
+     {
+       res.json({status:0,message:'User Does not exist'});
+       return 
+     }
+ 
 if(!(id))
 {
       res.json({success:false,message:"Please Provide all the details"});

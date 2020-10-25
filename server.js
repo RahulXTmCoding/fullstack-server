@@ -3,10 +3,7 @@ const express=require('express');
 
 const { v4: uuidV4 } = require('uuid')
 const app=express()
-let session = require('express-session');
-const redis = require('redis');
-const redisStore = require('connect-redis')(session);
-const client  = redis.createClient();
+
 const bodyParser=require('body-parser')
 const mongoose=require('mongoose')
 const cors=require('cors');
@@ -27,18 +24,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('trust proxy', 1)
 app.use(cors({origin: '*', credentials:true }));
-app.use(session({
-    secret: 'ssshhhhh',
-    cookie: {
-        httpOnly: true,
-        secure: false,
-        sameSite: false, // Time is in miliseconds
-    },
-    // create new redis store.
-    store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl : 260}),
-    saveUninitialized: false,
-    resave: false
-}));
+
 app.use(cookieParser("secretSign#143_!223"));
 mongoose.connect('mongodb+srv://pataranAdmin:WtrlCAzO2qr0HnSv@cluster0.scpvd.mongodb.net/assignment?retryWrites=true&w=majority',{useNewUrlParser: true})
 
